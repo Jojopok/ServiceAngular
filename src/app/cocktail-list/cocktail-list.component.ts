@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CocktailService } from '../cocktail.service';
 import { CommonModule } from '@angular/common';
 import { Cocktail } from './cocktail.model';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-cocktail-list',
@@ -12,10 +13,14 @@ import { Cocktail } from './cocktail.model';
 })
 export class CocktailListComponent {
 
-  constructor(private cocktailService: CocktailService) { }
+  cocktails: Cocktail[] = [];
 
-  cocktails() {
-    return this.cocktailService.getCocktails();
+  private cocktailService = inject(CocktailService);
+
+  ngOnInit(): void {
+    this.cocktailService.getCocktails().subscribe(cocktailsFromJsonFile => {
+      this.cocktails = cocktailsFromJsonFile;
+    });
+
   }
-
 }
