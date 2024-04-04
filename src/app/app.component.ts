@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CocktailListComponent } from './cocktail-list/cocktail-list.component';
+import { NasaService } from './nasa.service';
 
 @Component({
   selector: 'app-root',
@@ -11,4 +12,14 @@ import { CocktailListComponent } from './cocktail-list/cocktail-list.component';
 })
 export class AppComponent {
   title = 'Service';
+  imgOfTheDay: string = '';
+
+  constructor(private nasaService: NasaService) {}
+
+  ngOnInit() {
+    this.nasaService.getImageOfTheDay().subscribe((data: any) => {
+      this.imgOfTheDay = data.url;
+    });
+  }
 }
+
